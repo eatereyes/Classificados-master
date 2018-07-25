@@ -24,26 +24,26 @@ import java.io.*;
  */
 public class Classificados {
     public static void main(String[] args) throws Exception {
-        Pessoas col = new Pessoas();
-        Anuncios colA = new Anuncios();
+        Pessoas col = new Pessoas(); //coleção co1 do tipo Pessoas
+        Anuncios colA = new Anuncios(); //coleção colA do tipo Anuncios
         
-        int porta = 1234;
-        String host = "192.168.0.103";        
-        Socket s = new Socket(host,porta);
-		OutputStream  saida1 = s.getOutputStream();
-		ObjectOutputStream saida = new ObjectOutputStream(saida1);
+        int porta = 1234; //por utilizada
+        String host = "192.168.0.103"; //ip para o qual sera enviado os objetos atraves dos sockets       
+        Socket s = new Socket(host,porta); //socket
+		OutputStream  saida1 = s.getOutputStream(); //declarando um outputstream para enviar objetos para o socket
+		ObjectOutputStream saida = new ObjectOutputStream(saida1); //passando objeto pelo socket
 		      
-        col.lerDoXML();
-        colA.lerDoXML();      
+        col.lerDoXML(); // salvando no XML
+        colA.lerDoXML();      //Lendo do XML
             
         int op = 1;
-        while(op != 0){
-            print_menu();
+        while(op != 0){ //Laço para o Menu principal enquanto o usuario não digitar 0 não saira do Menu
+            print_menu(); //exibe o menu
             
-            Scanner inteiro = new Scanner(System.in); 
-            op = leInteiro(inteiro);
+            Scanner inteiro = new Scanner(System.in); //declara um Scanner
+            op = leInteiro(inteiro); //ler a opção desejada
             
-            realizar_operacao(op, colA, col, saida);
+            realizar_operacao(op, colA, col, saida); //case para execução de uma operação que sera digitada pelo usuario.
         }
     }
     /**
@@ -52,6 +52,7 @@ public class Classificados {
      * @param saida
      * @throws Exception
      * Metodos para o Menu principal
+     * Metodo para cadastrar um cliente
      */
     public static void op1(Pessoas col, ObjectOutputStream saida) throws Exception{	
         Scanner corda = new Scanner(System.in);
@@ -131,9 +132,9 @@ public class Classificados {
                 if(r == 0) break;
             }
             
-            col.salvaEmXML();
+            col.salvaEmXML(); //salva o objeto em XML
             try {
-    			saida.writeObject(col);
+    			saida.writeObject(col); //manda objeto pelo socket
     			saida.flush();
     			Thread.sleep (1000);
             } catch (Exception e) {
@@ -141,7 +142,7 @@ public class Classificados {
             }
             
             try {
-	            	saida.writeObject(col);
+	            	saida.writeObject(col); //manda objeto pelo socket
 	    			saida.flush();
 	    			Thread.sleep (1000); 
             } catch (Exception e) {
@@ -150,6 +151,10 @@ public class Classificados {
             
             
     }
+   /**
+    * Metodo para pesquisar o cliente pelo nome
+    * @param col
+    */
     public static void op2(Pessoas col){
         Scanner corda = new Scanner(System.in);
         System.out.println(":::::::::::::::::::: Pesquisa cliente pelo nome de usuÃ¡rio :::::::::::::::::::"); 
@@ -168,7 +173,10 @@ public class Classificados {
         leString(corda);
     }
     
-    
+    /**
+     * Metodo para persquisar o Cliente pelo e-mail
+     * @param col
+     */
     public static void op3(Pessoas col){
         Scanner corda = new Scanner(System.in);
         System.out.println("::::::::::::::::::::::::: Pesquisa cliente pelo e-mail :::::::::::::::::::::::"); 
@@ -187,7 +195,10 @@ public class Classificados {
         leString(corda);
     }   
     
-    
+    /**
+     * Metodo para listar todas as pessoas cadastradas
+     * @param col
+     */
     public static void op4(Pessoas col){
         Scanner corda = new Scanner (System.in);
     		System.out.println("::::::::::::::::::::::: Lista de pessoas cadastradas ::::::::::::::::::::::::::"); 
@@ -198,7 +209,10 @@ public class Classificados {
         leString(corda);
     }
     
-    
+    /**
+     * Metodo para pesquisar pelo usuario
+     * @param col
+     */
     public static void op5(Pessoas col){
         Scanner corda = new Scanner(System.in);
         System.out.println("::::::::::::::::::::::: Informacoes da Pessoa  :::::::::::::::::::::::::::::::"); 
@@ -217,7 +231,13 @@ public class Classificados {
         leString(corda);
     }
     
-    
+    /**
+     * Metodo para cadastrar um anuncio
+     * @param colA
+     * @param col
+     * @param saida
+     * @throws Exception
+     */
     public static void op6(Anuncios colA, Pessoas col, ObjectOutputStream saida) throws Exception{
         Scanner corda = new Scanner(System.in);
         Scanner flo = new Scanner(System.in);
@@ -250,7 +270,7 @@ public class Classificados {
 	                colA.adicionarAnuncio(a);
 	                colA.salvaEmXML();
 	                try {
-	            		saida.writeObject(colA);
+	            		saida.writeObject(colA); //Manda objeto pelo socket
 	        			saida.flush();
 	        			Thread.sleep (1000);
 	                } catch (Exception e) {
@@ -268,7 +288,12 @@ public class Classificados {
             }
     }
     
-    
+    /**
+     * Metodo para pesquisar anuncio pelo anunciante
+     * @param colA
+     * @param col
+     * @throws Exception
+     */
     public static void op7(Anuncios colA, Pessoas col) throws Exception{
         Scanner corda = new Scanner(System.in);
         System.out.println(":::::::::::::::::: Pesquisar anÃºncio pelo anunciante :::::::::::::::::::::::::"); 
@@ -290,7 +315,10 @@ public class Classificados {
         leString(corda);
     }
     
-    
+    /**
+     * Metodo para pesquisar anuncio pelo produto
+     * @param colA
+     */
     public static void op8(Anuncios colA){
         Scanner corda = new Scanner(System.in);
         System.out.println(":::::::::::::::::::::: Pesquisar anÃºncio pelo produto ::::::::::::::::::::"); 
@@ -308,7 +336,11 @@ public class Classificados {
         leString(corda);
     }
     
-    
+    /**
+     * Meto para pesquisar anuncio pelo preço
+     * @param colA
+     * @throws Exception
+     */
     public static void op9(Anuncios colA) throws Exception{
         Scanner flo = new Scanner(System.in);
             System.out.println("::::::::::::::: Pesquisar anÃºncio por preÃ§o ::::::::::::::::::::::::");
@@ -325,7 +357,10 @@ public class Classificados {
         leString(flo);
     }
     
-    
+    /**
+     * Metodo para pesquisar anuncio pelo maior preço
+     * @param colA
+     */
     public static void op10(Anuncios colA){
         Scanner flo = new Scanner(System.in);
             System.out.println(":::::::::::: Pesquisar anÃºncio por preÃ§o maior :::::::::::::::::::::");
@@ -342,7 +377,10 @@ public class Classificados {
         leString(flo);
     }
     
-    
+    /**
+     * Metodo para pesquisar anuncio pelo menor preço
+     * @param colA
+     */
     public static void op11(Anuncios colA){
         Scanner flo = new Scanner(System.in);
             System.out.println(":::::::::::: Pesquisar anÃºncio por preÃ§o menor :::::::::::::::::::::");
@@ -359,7 +397,13 @@ public class Classificados {
         leString(flo);
     }
     
-    
+    /**
+     * Metdo para remover anuncio pelo produto e anunciante
+     * @param colA
+     * @param col
+     * @param saida
+     * @throws Exception
+     */
     public static void op12(Anuncios colA, Pessoas col, ObjectOutputStream saida) throws Exception{
         Scanner corda = new Scanner(System.in);
         System.out.println(":::::::::::::::::: Remover anÃºncio pelo produto e anunciate ::::::::::::::::::"); 
@@ -373,10 +417,10 @@ public class Classificados {
         			System.out.println("::  Digite o nome do produto:                                               ::");
         			String produto = leString(corda);   
         	        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::;;:::::::::::::::::::::");
-        			colA.removePeloProdutoAnuciante(produto, anunciante);
+        			colA.removePeloProdutoAnuciante(produto, anunciante);//remove anunciante pelo produto
         			colA.salvaEmXML();
         			try {
-        	    		saida.writeObject(colA);
+        	    		saida.writeObject(colA);//manda objeto pelo socket
         				saida.flush();
         				Thread.sleep (1000);
         	        } catch (Exception e) {
@@ -393,6 +437,10 @@ public class Classificados {
         leString(corda);
     }
     
+    /**
+     *Metodo que mostra os anuncios cadastrados 
+     * @param colA
+     */
     public static void op13(Anuncios colA){
         Scanner corda = new Scanner (System.in);
     		System.out.println("::::::::::::::::::::::: Lista de anuncios cadastradas ::::::::::::::::::::::::::"); 
@@ -402,8 +450,9 @@ public class Classificados {
         System.out.println("Pressione enter para voltar ao menu...");
         leString(corda);
     }
+    
     /**
-     * MÃ©tudos para garantir a leitura do teclado
+     * MÃ©tudos para garantir a leitura de um inteiro
      * @param in
      * @return 
      */
@@ -416,10 +465,22 @@ public class Classificados {
         in.nextLine(); 
         return r;
     }
+    
+    /**
+     * metodo que garante a leitura de uma string
+     * @param strin
+     * @return
+     */
     private static String leString(Scanner strin) {
         String r = strin.nextLine();
         return r;
     }
+    
+    /**
+     * Metodo que garante a leitura de um float
+     * @param flo
+     * @return
+     */
     private static float leFloat(Scanner flo){
 		while(!flo.hasNextFloat())
                 {
@@ -430,6 +491,8 @@ public class Classificados {
 		flo.nextLine();
 		return r;
     }
+    
+    
     /**
      * Menu principal
      */
@@ -456,6 +519,14 @@ public class Classificados {
         System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
     }
     
+    /**
+     * Case que receberar um inteiro e executara a função indicada pelo valor
+     * @param op
+     * @param colA
+     * @param col
+     * @param saida
+     * @throws Exception
+     */
     private static void realizar_operacao(int op, Anuncios colA, Pessoas col, ObjectOutputStream saida) throws Exception {
     	switch(op){
         case 1: op1(col, saida);
